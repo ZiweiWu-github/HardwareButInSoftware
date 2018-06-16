@@ -6,8 +6,8 @@ software.
 public class MotherBoard {
 
 	public static void main(String[] args) {
-		int[] s = decimalToBinary(3,4);
-		int[] f = decimalToBinary(3,4);
+		int[] s = decimalToBinary(4,4);
+		int[] f = decimalToBinary(-4,4);
 		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
@@ -162,9 +162,7 @@ public class MotherBoard {
 		for(int i = 0; i<tempHold.length; i++) {
 			s[s.length-i-1] = tempHold[tempHold.length-i-1];
 		}
-		if(logicalXor1Bit(aNeg,bNeg)==1) {
-			s= twosComp(s);
-		}
+		s = twoToOneMultiplexer32Bit(s, twosComp(s), logicalXor1Bit(aNeg, bNeg));
 		return s;
 	}
 	public static int[] decimalToBinary(int aa, int size) {
