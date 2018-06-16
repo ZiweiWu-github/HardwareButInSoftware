@@ -1,15 +1,14 @@
 /**
 Written By Ziwei Wu
-Can convert from decimal to binary and vice versa with 2's complement
-Has addition and subtraction "circuits" implemented
+Used as a way to better understand how logic circuits work by implementing them into
+software.
 **/
 public class MotherBoard {
 
 	public static void main(String[] args) {
-		int[] s = decimalToBinary(2,4);
-		int[] f = decimalToBinary(2,4);
-		int[] g = addOrSub(s, f,1);
-		s = ReduceRight(s);
+		int[] s = decimalToBinary(3,8);
+		int[] f = decimalToBinary(3,8);
+		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
 	}
