@@ -6,8 +6,8 @@ software.
 public class MotherBoard {
 
 	public static void main(String[] args) {
-		int[] s = decimalToBinary(3,8);
-		int[] f = decimalToBinary(3,8);
+		int[] s = decimalToBinary(-3,4);
+		int[] f = decimalToBinary(-3,4);
 		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
@@ -118,8 +118,25 @@ public class MotherBoard {
 		}
 		return s;
 	}
+	public static int[] signExt(int[] a, int size) {
+		int[] s = new int[size];
+		for(int i =0; i<a.length; i++) {
+			s[i] = a[i];
+		}
+		for(int i = a.length; i<s.length; i++) {
+			s[i] = a[a.length-1];
+		}
+		return s;
+	}
 	public static int[] multiplier(int[] a, int[] b) {
 		int[] s = new int[a.length + b.length];
+		int aNeg = a[a.length-1], bNeg = b[b.length-1];
+		if(aNeg ==1) {
+			a= twosComp(a);
+		}
+		if(bNeg == 1) {
+			b= twosComp(b);
+		}
 		int[] tempHold = oneToManyAnds(a, b[0]);
 		s[0] = tempHold[0];
 		tempHold = shiftRight(tempHold);
@@ -131,6 +148,9 @@ public class MotherBoard {
 		}
 		for(int i = 0; i<tempHold.length; i++) {
 			s[s.length-i-1] = tempHold[tempHold.length-i-1];
+		}
+		if(logicalXor1Bit(aNeg,bNeg)==1) {
+			s= twosComp(s);
 		}
 		return s;
 	}
