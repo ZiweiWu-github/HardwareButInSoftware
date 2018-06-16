@@ -6,8 +6,8 @@ software.
 public class MotherBoard {
 
 	public static void main(String[] args) {
-		int[] s = decimalToBinary(-3,4);
-		int[] f = decimalToBinary(3,4);
+		int[] s = decimalToBinary(3,4);
+		int[] f = decimalToBinary(-3,4);
 		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
@@ -29,10 +29,27 @@ public class MotherBoard {
 		else return 1;
 	}
 	public static int[] logicalNot32Bit(int[] a) {
+		int[] s = a.clone();
 		for(int i =0; i<a.length; i++) {
-			a[i] = logicalNot1Bit(a[i]);
+			s[i] = logicalNot1Bit(a[i]);
 		}
-		return a;
+		return s;
+	}
+	public static int twoToOneMultiplexer(int a, int b, int x) {
+		//x is the select bit
+		//if 0, then select a
+		//if 1, then select b
+		return logicalOr1Bit(logicalAnd1Bit(a, logicalNot1Bit(x)), logicalAnd1Bit(b,x));
+	}
+	public static int[] twoToOneMultiplexer32Bit(int[] a, int[] b, int x) {
+		//x is the select bit
+		//if 0, then select a
+		//if 1, then select b
+		int[] s = new int[a.length];
+		for(int i =0; i<a.length; i++) {
+			s[i] = twoToOneMultiplexer(a[i], b[i], x);
+		}
+		return s;
 	}
 	public static int[] halfAdder(int a, int b) {
 		int[] s = new int[2];
@@ -71,16 +88,10 @@ public class MotherBoard {
 		return s;
 	}
 	public static int[] addOrSub(int[] a, int[] b, int mode) {
-		if(mode == 0) {
-			return fullAdder(a,b, mode);
+		for(int i =0; i<b.length; i++) {
+			b[i] = logicalXor1Bit(mode, b[i]);
 		}
-		else {
-			int[] f = new int[b.length];
-			for(int i =0; i<b.length; i++) {
-				f[i] = logicalXor1Bit(mode, b[i]);
-			}
-			return fullAdder(a,f,mode);
-		}
+		return fullAdder(a,b,mode);
 	}
 	public static int[] shiftRight(int[] a) {
 		int[] s = new int[a.length];
@@ -137,12 +148,8 @@ public class MotherBoard {
 	public static int[] multiplier(int[] a, int[] b) {
 		int[] s = new int[a.length + b.length];
 		int aNeg = a[a.length-1], bNeg = b[b.length-1];
-		if(aNeg ==1) {
-			a= twosComp(a);
-		}
-		if(bNeg == 1) {
-			b= twosComp(b);
-		}
+		a = twoToOneMultiplexer32Bit(a, twosComp(a), aNeg);
+		b = twoToOneMultiplexer32Bit(b, twosComp(b), bNeg);
 		int[] tempHold = oneToManyAnds(a, b[0]);
 		s[0] = tempHold[0];
 		tempHold = shiftRight(tempHold);
@@ -173,8 +180,8 @@ public class MotherBoard {
 		return s;
 	}
 	public static int[] twosComp(int[] a) {
-		a = addOrSub(logicalNot32Bit(a), decimalToBinary(1,a.length), 0);
-		return a;
+		int[] s = addOrSub(logicalNot32Bit(a), decimalToBinary(1,a.length), 0);
+		return s;
 	}
 	public static int abs(int a) {
 		if(a >= 0) return a;
