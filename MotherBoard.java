@@ -7,7 +7,7 @@ public class MotherBoard {
 
 	public static void main(String[] args) {
 		int[] s = decimalToBinary(3,4);
-		int[] f = decimalToBinary(-3,4);
+		int[] f = decimalToBinary(3,4);
 		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
@@ -185,7 +185,7 @@ public class MotherBoard {
 	}
 	public static int abs(int a) {
 		if(a >= 0) return a;
-		else return a*=-1; 
+		else return a*-1; 
 	}
 	public static int binaryToDecimal(int[] a) {
 		int x = 0;
