@@ -7,7 +7,7 @@ public class MotherBoard {
 
 	public static void main(String[] args) {
 		int[] s = decimalToBinary(-3,4);
-		int[] f = decimalToBinary(-3,4);
+		int[] f = decimalToBinary(3,4);
 		int[] g = multiplier(s, f);
 		printOut(g);
 		System.out.println(binaryToDecimal(g));
@@ -27,6 +27,12 @@ public class MotherBoard {
 	public static int logicalNot1Bit(int a) {
 		if(a==1) return 0;
 		else return 1;
+	}
+	public static int[] logicalNot32Bit(int[] a) {
+		for(int i =0; i<a.length; i++) {
+			a[i] = logicalNot1Bit(a[i]);
+		}
+		return a;
 	}
 	public static int[] halfAdder(int a, int b) {
 		int[] s = new int[2];
@@ -167,10 +173,7 @@ public class MotherBoard {
 		return s;
 	}
 	public static int[] twosComp(int[] a) {
-		for(int i =0; i<a.length; i++) {
-			a[i] = logicalNot1Bit(a[i]);
-		}
-		a = addOrSub(a, decimalToBinary(1,a.length), 0);
+		a = addOrSub(logicalNot32Bit(a), decimalToBinary(1,a.length), 0);
 		return a;
 	}
 	public static int abs(int a) {
